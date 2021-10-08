@@ -1,12 +1,15 @@
 package com.example.studyapplication
 
 import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.studyapplication.databinding.FragmentFirstBinding
 
@@ -20,6 +23,12 @@ class FirstFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
 
+    private val receiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            Toast.makeText(context, "Received Intent: " + intent?.getStringExtra("ru.yauhen.broadcast.Message"), Toast.LENGTH_LONG).show()
+        }
+    }
+
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -30,6 +39,12 @@ class FirstFragment : Fragment() {
     ): View? {
 
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
+
+        //intent filter + start Broadcast Receiver
+        val intentFilter = IntentFilter()
+        intentFilter.addAction(UNIQUE_MY_ACTION)
+        context?.registerReceiver(receiver, intentFilter)
+
         return binding.root
 
     }
