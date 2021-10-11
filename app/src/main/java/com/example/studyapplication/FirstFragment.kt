@@ -63,6 +63,9 @@ class FirstFragment : Fragment() {
             intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES)
             context?.sendBroadcast(intent)
         }
+
+        val myChar = 'f'
+        val result = "Test $myChar"
     }
 
     override fun onDestroyView() {
